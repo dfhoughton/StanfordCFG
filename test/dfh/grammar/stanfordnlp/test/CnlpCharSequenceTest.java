@@ -63,7 +63,6 @@ public class CnlpCharSequenceTest {
 		while (m.find()) {
 			int i = m.start();
 			String s = seq.tag(i);
-			// System.out.println(s);
 			assertNotNull(s);
 		}
 	}
