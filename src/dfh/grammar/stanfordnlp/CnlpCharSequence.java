@@ -2,6 +2,7 @@ package dfh.grammar.stanfordnlp;
 
 import java.util.List;
 import java.util.NavigableMap;
+import java.util.SortedSet;
 import java.util.TreeMap;
 
 import edu.stanford.nlp.ling.CoreLabel;
@@ -28,7 +29,8 @@ public class CnlpCharSequence implements CharSequence {
 	private NavigableMap<Integer, CoreMap> sentenceStartMap, sentenceEndMap;
 	private NavigableMap<Integer, CoreLabel> tokenStartMap, tokenEndMap;
 	private CnlpCharSequence parent;
-	int start;
+	protected int start;
+	protected int end;
 
 	/**
 	 * Package-restricted constructor. The expectation is that
@@ -44,6 +46,7 @@ public class CnlpCharSequence implements CharSequence {
 		tokenEndMap = new TreeMap<Integer, CoreLabel>();
 		this.start = 0;
 		this.text = document.get(TextAnnotation.class);
+		this.end = text.length();
 		// these are all the sentences in this document
 		// a CoreMap is essentially a Map that uses class objects as keys and
 		// has values with custom types
@@ -75,6 +78,7 @@ public class CnlpCharSequence implements CharSequence {
 	private CnlpCharSequence(CnlpCharSequence parent, int start, int end) {
 		this.parent = parent;
 		this.start = start;
+		this.end = end;
 		this.text = parent.text.substring(start, end);
 	}
 
@@ -266,5 +270,31 @@ public class CnlpCharSequence implements CharSequence {
 			return token;
 		}
 		return parent.tokenContaining(translate(j));
+	}
+
+	/**
+	 * @return start offsets of all tokens
+	 */
+	public SortedSet<Integer> tokenOffsets() {
+		if (parent == null)
+			return (SortedSet<Integer>) tokenStartMap.keySet();
+		return tokenOffsets(start, end);
+	}
+
+	/**
+	 * @param s
+	 * @param e
+	 * @return start offsets of all tokens lying within given offsets
+	 */
+	public SortedSet<Integer> tokenOffsets(int s, int e) {
+		if (parent == null) {
+			NavigableMap<Integer, CoreLabel> map = tokenStartMap.tailMap(s,
+					true);
+			if (!map.isEmpty()) {
+				map = map.headMap(e, false);
+			}
+			return (SortedSet<Integer>) map.keySet();
+		}
+		return parent.tokenOffsets(translate(s), translate(e));
 	}
 }
