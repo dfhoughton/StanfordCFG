@@ -23,7 +23,7 @@ import dfh.grammar.Rule;
  * @author David Houghton
  * 
  */
-public class CnlpRule extends Rule {
+public class CnlpRule extends Rule implements Cloneable {
 	private static final long serialVersionUID = 1L;
 
 	private class CnlpMatcher extends Matcher {
@@ -160,6 +160,11 @@ public class CnlpRule extends Rule {
 	@Override
 	public Rule shallowClone() {
 		return new CnlpRule((Label) label.clone(), (POSTest) test.clone());
+	}
+
+	@Override
+	public Object clone() {
+		return shallowClone();
 	}
 
 	@Override

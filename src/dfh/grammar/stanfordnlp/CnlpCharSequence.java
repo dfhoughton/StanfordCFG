@@ -297,4 +297,9 @@ public class CnlpCharSequence implements CharSequence {
 		}
 		return parent.tokenOffsets(translate(s), translate(e));
 	}
+
+	@Override
+	public String toString() {
+		return text;
+	}
 }
