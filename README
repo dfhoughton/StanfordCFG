@@ -19,6 +19,8 @@ It also depends on my Grammar project:
 
 	https://github.com/dfhoughton/Grammar
 
+To run the tests in the test/ directory, you will need JUnit 4.
+
 License and Copyright
 ---------------------
 
