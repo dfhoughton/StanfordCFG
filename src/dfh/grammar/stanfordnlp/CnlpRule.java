@@ -16,8 +16,6 @@ import dfh.grammar.Rule;
 /**
  * Base class that makes Stanford CoreNLP tags available to a {@link Grammar}.
  * 
- * TODO make these rules reversible
- * 
  * <b>Creation date:</b> May 12, 2011
  * 
  * @author David Houghton

@@ -351,4 +351,15 @@ public class CnlpCharSequence implements CharSequence {
 			lemmata.add(cl.get(LemmaAnnotation.class));
 		return lemmata;
 	}
+
+	/**
+	 * Returns start of token with given end.
+	 * 
+	 * @param end
+	 * @return start of token with given end
+	 */
+	public int findTokenStart(int end) {
+		CoreLabel cl = tokenEndMap.get(end);
+		return cl == null ? -1 : cl.beginPosition();
+	}
 }

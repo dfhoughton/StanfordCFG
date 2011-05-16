@@ -22,9 +22,7 @@ import dfh.grammar.stanfordnlp.rules.Possessive;
 import dfh.grammar.stanfordnlp.rules.Preposition;
 
 /**
- * Makes sure {@link CnlpCharSequence} is working to spec.
- * 
- * TODO: add tests for subsequence methods
+ * Checks to see whether we can match against CoreNLP annotations.
  * 
  * <b>Creation date:</b> May 12, 2011
  * 
