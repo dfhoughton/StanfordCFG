@@ -17,6 +17,6 @@ public class Adverb extends CnlpRule {
 	private static final long serialVersionUID = 1L;
 
 	public Adverb() {
-		super(new Label(Type.terminal, "Adv"), new RegexTest("(?i)r.*"));
+		super(new Label(Type.terminal, "Adv"), new RegexTest("R.*"));
 	}
 }

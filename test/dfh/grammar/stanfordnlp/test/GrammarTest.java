@@ -44,8 +44,9 @@ public class GrammarTest {
 				"<ROOT> = <NP>",//
 				"<NP> = [<DP> <s>]? <NB> | <NP> <s> <PP>",//
 				"<DP> = <NP> <pos> | <D>",//
-				"<NB> = <AP> <s> <NB> | <N>",//
-				"<AP> = <Adv> <s> <AP> | <AP> <s> <PP> | <A> | <N>",//
+				"<NB> = <AP> <s> <NB> | <NC>",//
+				"<NC> = [<N> <s>]* <N>",//
+				"<AP> = <Adv> <s> <AP> | <AP> <s> <PP> | <A>",//
 				"<PP> = <P> <s> <NP>",//
 				"<s> = /\\s++/r", });
 		grammar.defineRule("N", new Noun());
@@ -58,8 +59,7 @@ public class GrammarTest {
 
 	@Test
 	public void fatCatTest() {
-		CnlpCharSequence seq = factory
-				.CnlpCharSequence("The fat cat sat on the mat.");
+		CnlpCharSequence seq = factory.sequence("The fat cat sat on the mat.");
 		Options opt = new Options();
 		opt.allowOverlap(true);
 		Matcher m = grammar.find(seq, opt);
@@ -78,7 +78,7 @@ public class GrammarTest {
 
 	@Test
 	public void veryFatTest() {
-		CnlpCharSequence seq = factory.CnlpCharSequence("The very fat cat.");
+		CnlpCharSequence seq = factory.sequence("The very fat cat.");
 		Options opt = new Options();
 		opt.allowOverlap(true);
 		Matcher m = grammar.find(seq, opt);
@@ -97,24 +97,19 @@ public class GrammarTest {
 
 	@Test
 	public void manMachineTest() {
-		CnlpCharSequence seq = factory.CnlpCharSequence("The man machine.");
-		for (Integer i : seq.tokenOffsets()) {
-			System.out.printf("%s//%s%n", seq.text(i), seq.tag(i));
-		}
+		CnlpCharSequence seq = factory.sequence("The man machine.");
 		Options opt = new Options();
 		opt.allowOverlap(true);
+		opt.longestTokenMatching(false);
 		// opt.trace(System.out);
 		Matcher m = grammar.find(seq, opt);
 		Match n;
 		Set<String> correct = new HashSet<String>(), found = new HashSet<String>();
-		for (String s : new String[] { "The man machine", "man machine", "man",
-				"machine" })
+		for (String s : new String[] { "The man machine", "The man",
+				"man machine", "man", "machine" })
 			correct.add(s);
 		while ((n = m.match()) != null) {
 			found.add(seq.subSequence(n.start(), n.end()).toString());
-			// System.out.println(n);
-			System.out.println(seq.subSequence(n.start(), n.end()));
-			System.out.println();
 		}
 		assertEquals(correct.size(), found.size());
 		correct.removeAll(found);
@@ -123,12 +118,10 @@ public class GrammarTest {
 
 	@Test
 	public void manInTheMoonTest() {
-		CnlpCharSequence seq = factory.CnlpCharSequence("The man in the moon.");
-		for (Integer i : seq.tokenOffsets()) {
-			System.out.printf("%s//%s%n", seq.text(i), seq.tag(i));
-		}
+		CnlpCharSequence seq = factory.sequence("The man in the moon.");
 		Options opt = new Options();
 		opt.allowOverlap(true);
+		opt.longestTokenMatching(false);
 		// opt.trace(System.out);
 		Matcher m = grammar.find(seq, opt);
 		Match n;
@@ -138,9 +131,6 @@ public class GrammarTest {
 			correct.add(s);
 		while ((n = m.match()) != null) {
 			found.add(seq.subSequence(n.start(), n.end()).toString());
-			// System.out.println(n);
-			System.out.println(seq.subSequence(n.start(), n.end()));
-			System.out.println();
 		}
 		assertEquals(correct.size(), found.size());
 		correct.removeAll(found);
@@ -149,13 +139,11 @@ public class GrammarTest {
 
 	@Test
 	public void bobsCarTest() {
-		CnlpCharSequence seq = factory.CnlpCharSequence("Bob's car");
-		for (Integer i : seq.tokenOffsets()) {
-			System.out.printf("%s//%s%n", seq.text(i), seq.tag(i));
-		}
+		CnlpCharSequence seq = factory.sequence("Bob's car");
 		Options opt = new Options();
 		opt.allowOverlap(true);
-		 opt.trace(System.out);
+		opt.longestTokenMatching(false);
+		// opt.trace(System.out);
 		Matcher m = grammar.find(seq, opt);
 		Match n;
 		Set<String> correct = new HashSet<String>(), found = new HashSet<String>();
@@ -163,9 +151,6 @@ public class GrammarTest {
 			correct.add(s);
 		while ((n = m.match()) != null) {
 			found.add(seq.subSequence(n.start(), n.end()).toString());
-			// System.out.println(n);
-			System.out.println(seq.subSequence(n.start(), n.end()));
-			System.out.println();
 		}
 		assertEquals(correct.size(), found.size());
 		correct.removeAll(found);

@@ -19,7 +19,7 @@ public class CnlpCharSequenceFactory {
 		pipeline = new StanfordCoreNLP(props);
 	}
 
-	public CnlpCharSequence CnlpCharSequence(String text) {
+	public CnlpCharSequence sequence(String text) {
 		// create an empty Annotation just with the given text
 		Annotation document = new Annotation(text);
 

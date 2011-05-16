@@ -33,7 +33,7 @@ public class CnlpCharSequenceTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		CnlpCharSequenceFactory factory = new CnlpCharSequenceFactory();
-		seq = factory.CnlpCharSequence(SENTENCE);
+		seq = factory.sequence(SENTENCE);
 	}
 
 	@Test

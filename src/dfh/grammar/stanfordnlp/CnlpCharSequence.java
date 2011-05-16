@@ -1,5 +1,7 @@
 package dfh.grammar.stanfordnlp;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.NavigableMap;
 import java.util.SortedSet;
@@ -174,7 +176,7 @@ public class CnlpCharSequence implements CharSequence {
 	 *            character offset
 	 * @return lemma for token containing the given offset
 	 */
-	public String lemma(Integer i) {
+	public String lemma(int i) {
 		CoreLabel token = tokenContaining(i);
 		if (token == null)
 			return null;
@@ -273,6 +275,36 @@ public class CnlpCharSequence implements CharSequence {
 	}
 
 	/**
+	 * Returns tokens within specified interval. The first token will begin at
+	 * or overlap with the start offset. All other tokens will follow the start
+	 * and not overlap with the end offset. If these offsets represent the start
+	 * and end offsets of tokens matched, it will contain the terminal tokens
+	 * and all intervening tokens.
+	 * 
+	 * @param start
+	 * @param end
+	 * @return tokens within specified interval
+	 */
+	public List<CoreLabel> tokensContaining(int start, int end) {
+		if (parent == null) {
+			CoreLabel first = tokenContaining(start);
+			NavigableMap<Integer, CoreLabel> map = first == null ? tokenStartMap
+					.tailMap(start, false) : tokenStartMap.tailMap(
+					first.endPosition(), true);
+			List<CoreLabel> list = new LinkedList<CoreLabel>();
+			if (first != null)
+				list.add(first);
+			for (CoreLabel cl : map.values()) {
+				if (cl.beginPosition() >= end)
+					break;
+				list.add(cl);
+			}
+			return list;
+		}
+		return parent.tokensContaining(translate(start), translate(end));
+	}
+
+	/**
 	 * @return start offsets of all tokens
 	 */
 	public SortedSet<Integer> tokenOffsets() {
@@ -301,5 +333,22 @@ public class CnlpCharSequence implements CharSequence {
 	@Override
 	public String toString() {
 		return text;
+	}
+
+	/**
+	 * Returns lemmata within interval specified. See
+	 * {@link #tokensContaining(int, int)} for more details regarding what is
+	 * considered to fall within the interval.
+	 * 
+	 * @param start
+	 * @param end
+	 * @return lemmata within interval specified
+	 */
+	public List<String> lemmata(int start, int end) {
+		List<CoreLabel> list = tokensContaining(start, end);
+		List<String> lemmata = new ArrayList<String>(list.size());
+		for (CoreLabel cl : list)
+			lemmata.add(cl.get(LemmaAnnotation.class));
+		return lemmata;
 	}
 }

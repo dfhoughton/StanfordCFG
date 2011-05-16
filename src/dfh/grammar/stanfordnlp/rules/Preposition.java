@@ -17,6 +17,6 @@ public class Preposition extends CnlpRule {
 	private static final long serialVersionUID = 1L;
 
 	public Preposition() {
-		super(new Label(Type.terminal, "P"), new RegexTest("(?i)in"));
+		super(new Label(Type.terminal, "P"), new RegexTest("IN|TO"));
 	}
 }

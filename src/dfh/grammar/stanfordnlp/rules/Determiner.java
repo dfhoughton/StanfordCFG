@@ -17,6 +17,6 @@ public class Determiner extends CnlpRule {
 	private static final long serialVersionUID = 1L;
 
 	public Determiner() {
-		super(new Label(Type.terminal, "D"), new RegexTest("(?i)dt"));
+		super(new Label(Type.terminal, "D"), new RegexTest("DT"));
 	}
 }

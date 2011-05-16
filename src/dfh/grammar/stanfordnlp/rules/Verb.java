@@ -17,6 +17,6 @@ public class Verb extends CnlpRule {
 	private static final long serialVersionUID = 1L;
 
 	public Verb() {
-		super(new Label(Type.terminal, "V"), new RegexTest("(?i)v.*"));
+		super(new Label(Type.terminal, "V"), new RegexTest("V.*"));
 	}
 }

@@ -17,6 +17,6 @@ public class Possessive extends CnlpRule {
 	private static final long serialVersionUID = 1L;
 
 	public Possessive() {
-		super(new Label(Type.terminal, "pos"), new RegexTest("(?i)pos"));
+		super(new Label(Type.terminal, "pos"), new RegexTest("POS"));
 	}
 }

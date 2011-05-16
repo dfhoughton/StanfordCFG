@@ -17,6 +17,6 @@ public class Adjective extends CnlpRule {
 	private static final long serialVersionUID = 1L;
 
 	public Adjective() {
-		super(new Label(Type.terminal, "A"), new RegexTest("(?i)j.*"));
+		super(new Label(Type.terminal, "A"), new RegexTest("J.*"));
 	}
 }

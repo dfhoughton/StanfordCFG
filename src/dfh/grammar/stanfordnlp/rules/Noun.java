@@ -17,6 +17,6 @@ public class Noun extends CnlpRule {
 	private static final long serialVersionUID = 1L;
 
 	public Noun() {
-		super(new Label(Type.terminal, "N"), new RegexTest("(?i)n.*"));
+		super(new Label(Type.terminal, "N"), new RegexTest("VBG|N.*"));
 	}
 }
