@@ -12,6 +12,7 @@ import dfh.grammar.Label;
 import dfh.grammar.Match;
 import dfh.grammar.Matcher;
 import dfh.grammar.Rule;
+import dfh.grammar.Label.Type;
 
 /**
  * Base class that makes Stanford CoreNLP tags available to a {@link Grammar}.
@@ -96,9 +97,25 @@ public class CnlpRule extends Rule implements Cloneable {
 	protected final POSTest test;
 	protected Condition c;
 
+	/**
+	 * Creates {@link CnlpRule} with given test and label.
+	 * 
+	 * @param label
+	 * @param test
+	 */
 	public CnlpRule(Label label, POSTest test) {
 		super(label);
 		this.test = test;
+	}
+
+	/**
+	 * Convenience method that delegates the labeling of the rule to
+	 * {@link POSTest#id()}.
+	 * 
+	 * @param test
+	 */
+	public CnlpRule(POSTest test) {
+		this(new Label(Type.terminal, test.id()), test);
 	}
 
 	@Override
