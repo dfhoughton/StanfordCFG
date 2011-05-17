@@ -3,7 +3,7 @@ package dfh.grammar.stanfordnlp.rules;
 import dfh.grammar.Label;
 import dfh.grammar.Label.Type;
 import dfh.grammar.stanfordnlp.CnlpRule;
-import dfh.grammar.stanfordnlp.RegexTest;
+import dfh.grammar.stanfordnlp.LiteralTest;
 
 /**
  * Matches possessive marker <i>'s</i> or <i>'</i>.
@@ -17,6 +17,6 @@ public class Possessive extends CnlpRule {
 	private static final long serialVersionUID = 1L;
 
 	public Possessive() {
-		super(new Label(Type.terminal, "pos"), new RegexTest("POS"));
+		super(new Label(Type.terminal, "pos"), new LiteralTest("POS"));
 	}
 }
