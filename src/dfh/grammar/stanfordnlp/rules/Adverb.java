@@ -7,7 +7,7 @@ import dfh.grammar.stanfordnlp.RegexTest;
 
 /**
  * Matches adverbs.
- * 
+ * <p>
  * <b>Creation date:</b> May 12, 2011
  * 
  * @author David Houghton

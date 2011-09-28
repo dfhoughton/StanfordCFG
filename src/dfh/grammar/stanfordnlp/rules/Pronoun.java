@@ -6,17 +6,18 @@ import dfh.grammar.stanfordnlp.CnlpRule;
 import dfh.grammar.stanfordnlp.RegexTest;
 
 /**
- * Matches adjectives.
+ * Matches wh pronouns and personal pronouns.
  * <p>
- * <b>Creation date:</b> May 12, 2011
+ * <b>Creation date:</b> Sep 28, 2011
  * 
  * @author David Houghton
  * 
  */
-public class Adjective extends CnlpRule {
+public class Pronoun extends CnlpRule {
 	private static final long serialVersionUID = 1L;
 
-	public Adjective() {
-		super(new Label(Type.terminal, "A"), new RegexTest("J.*"));
+	public Pronoun() {
+		super(new Label(Type.terminal, "PRO"), new RegexTest("(?:PR|W)P"));
 	}
+
 }

@@ -6,8 +6,8 @@ import dfh.grammar.stanfordnlp.CnlpRule;
 import dfh.grammar.stanfordnlp.RegexTest;
 
 /**
- * Matches verbs.
- * 
+ * Matches verbs; includes gerunds.
+ * <p>
  * <b>Creation date:</b> May 12, 2011
  * 
  * @author David Houghton

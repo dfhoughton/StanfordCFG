@@ -7,7 +7,7 @@ import dfh.grammar.stanfordnlp.LiteralTest;
 
 /**
  * Matches possessive marker <i>'s</i> or <i>'</i>.
- * 
+ * <p>
  * <b>Creation date:</b> May 12, 2011
  * 
  * @author David Houghton
