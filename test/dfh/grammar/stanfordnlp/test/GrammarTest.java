@@ -98,7 +98,7 @@ public class GrammarTest {
 		CnlpCharSequence seq = factory.sequence("The man machine.");
 		Options opt = new Options();
 		opt.allowOverlap(true);
-		opt.longestTokenMatching(false);
+		opt.longestMatch(false);
 		// opt.trace(System.out);
 		Matcher m = grammar.find(seq, opt);
 		Match n;
@@ -119,7 +119,7 @@ public class GrammarTest {
 		CnlpCharSequence seq = factory.sequence("The man in the moon.");
 		Options opt = new Options();
 		opt.allowOverlap(true);
-		opt.longestTokenMatching(false);
+		opt.longestMatch(false);
 		// opt.trace(System.out);
 		Matcher m = grammar.find(seq, opt);
 		Match n;
@@ -140,7 +140,7 @@ public class GrammarTest {
 		CnlpCharSequence seq = factory.sequence("Bob's car");
 		Options opt = new Options();
 		opt.allowOverlap(true);
-		opt.longestTokenMatching(false);
+		opt.longestMatch(false);
 		// opt.trace(System.out);
 		Matcher m = grammar.find(seq, opt);
 		Match n;
