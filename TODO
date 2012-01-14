@@ -1,0 +1,14 @@
+List of bugs and desired features
+---------------------------------
+
+taxonomy:
+  . : pending
+  - : rejected
+  * : completed
+
+If the list grows long, completed and rejected items will be swept out of
+the main list and added to a COMPLETED section.
+
+TODO
+
+. make rules reversible
