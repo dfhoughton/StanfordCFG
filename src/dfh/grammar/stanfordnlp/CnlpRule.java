@@ -1,5 +1,6 @@
 package dfh.grammar.stanfordnlp;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -22,17 +23,17 @@ import dfh.grammar.Label.Type;
  * @author David Houghton
  * 
  */
-public class CnlpRule extends Rule implements Cloneable {
+public class CnlpRule extends Rule implements Cloneable, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private class CnlpMatcher extends Matcher {
 		private final Map<Integer, CachedMatch> cache;
 		private boolean fresh = true;
 
-		protected CnlpMatcher(CharSequence s, Integer offset,
-				Map<Label, Map<Integer, CachedMatch>> cache, Matcher master) {
-			super(s, offset, master);
-			this.cache = cache.get(label);
+		protected CnlpMatcher(Integer offset,
+				Map<Integer, CachedMatch>[] cache, Matcher master) {
+			super(offset, master);
+			this.cache = cache[cacheIndex];
 		}
 
 		@Override
@@ -119,12 +120,12 @@ public class CnlpRule extends Rule implements Cloneable {
 	}
 
 	@Override
-	public Matcher matcher(CharSequence s, Integer offset,
-			Map<Label, Map<Integer, CachedMatch>> cache, Matcher master) {
-		if (!(s instanceof CnlpCharSequence))
+	public Matcher matcher(Integer offset, Map<Integer, CachedMatch>[] cache,
+			Matcher master) {
+		if (!(master.options.seq() instanceof CnlpCharSequence))
 			throw new StanfordCFGException(CnlpRule.class
 					+ " can only match against " + CnlpCharSequence.class);
-		return new CnlpMatcher(s, offset, cache, master);
+		return new CnlpMatcher(offset, cache, master);
 	}
 
 	@Override
@@ -133,25 +134,15 @@ public class CnlpRule extends Rule implements Cloneable {
 	}
 
 	@Override
-	public String description() {
-		return test.id();
-	}
-
-	@Override
 	public Set<Integer> study(CharSequence s,
-			Map<Label, Map<Integer, CachedMatch>> cache,
-			Set<Rule> studiedRules, GlobalState options) {
+			Map<Integer, CachedMatch>[] cache, GlobalState options) {
 		if (!(s instanceof CnlpCharSequence))
 			throw new StanfordCFGException(CnlpRule.class
 					+ " can only match against " + CnlpCharSequence.class);
 		CnlpCharSequence ccs = (CnlpCharSequence) s;
-		Map<Integer, CachedMatch> subCache = cache.get(label);
+		Map<Integer, CachedMatch> subCache = cache[cacheIndex];
 		Set<Integer> startOffsets = new HashSet<Integer>();
 		if (subCache.isEmpty()) {
-			if (studiedRules.contains(this))
-				return startOffsets;
-			else
-				studiedRules.add(this);
 			for (Integer i : ccs.tokenOffsets(options.start, options.end)) {
 				if (test.test(ccs.tag(i))) {
 					String text = ccs.text(i);
@@ -173,7 +164,7 @@ public class CnlpRule extends Rule implements Cloneable {
 	}
 
 	@Override
-	public Rule shallowClone() {
+	public Rule sClone() {
 		return new CnlpRule((Label) label.clone(), (POSTest) test.clone());
 	}
 
@@ -187,6 +178,21 @@ public class CnlpRule extends Rule implements Cloneable {
 		this.c = c;
 		this.condition = id;
 		return this;
+	}
+
+	@Override
+	public String description(boolean withinBrackets) {
+		StringBuilder b = new StringBuilder(test.id());
+		if (condition != null)
+			b.append(" (").append(condition).append(')');
+		return wrap(b);
+	}
+
+	@Override
+	protected Boolean mayBeZeroWidth(Map<String, Boolean> cache) {
+		Boolean b = false;
+		cache.put(uid(), b);
+		return b;
 	}
 
 }
