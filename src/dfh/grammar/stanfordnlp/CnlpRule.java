@@ -9,9 +9,11 @@ import dfh.grammar.CachedMatch;
 import dfh.grammar.Condition;
 import dfh.grammar.GlobalState;
 import dfh.grammar.Grammar;
+import dfh.grammar.GrammarException;
 import dfh.grammar.Label;
 import dfh.grammar.Match;
 import dfh.grammar.Matcher;
+import dfh.grammar.Reversible;
 import dfh.grammar.Rule;
 import dfh.grammar.Label.Type;
 
@@ -23,6 +25,7 @@ import dfh.grammar.Label.Type;
  * @author David Houghton
  * 
  */
+@Reversible
 public class CnlpRule extends Rule implements Cloneable, Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -54,11 +57,12 @@ public class CnlpRule extends Rule implements Cloneable, Serializable {
 						CnlpRule.this.matchTrace(this, cm.m);
 					return cm.m;
 				}
-				CnlpCharSequence ccs = (CnlpCharSequence) s;
-				if (ccs.beginsToken(offset)) {
-					String tag = ccs.tag(offset);
+				CnlpCharSequence ccs = (CnlpCharSequence) (reversed ? options.rcs : options.cs);
+				int off = reversed ? options.rcs.translate(offset - 1) : offset;
+				if (reversed ? ccs.endsToken(off) : ccs.beginsToken(offset)) {
+					String tag = ccs.tag(off);
 					if (test.test(tag)) {
-						String text = ccs.text(offset);
+						String text = ccs.text(off);
 						Match m = new Match(CnlpRule.this, offset, offset
 								+ text.length());
 						if (c == null || c.passes(m, this, s))
@@ -97,6 +101,7 @@ public class CnlpRule extends Rule implements Cloneable, Serializable {
 
 	protected final POSTest test;
 	protected Condition c;
+	protected boolean reversed = false;
 
 	/**
 	 * Creates {@link CnlpRule} with given test and label.
@@ -122,7 +127,7 @@ public class CnlpRule extends Rule implements Cloneable, Serializable {
 	@Override
 	public Matcher matcher(Integer offset, Map<Integer, CachedMatch>[] cache,
 			Matcher master) {
-		if (!(master.options.seq() instanceof CnlpCharSequence))
+		if (!(master.options.cs instanceof CnlpCharSequence))
 			throw new StanfordCFGException(CnlpRule.class
 					+ " can only match against " + CnlpCharSequence.class);
 		return new CnlpMatcher(offset, cache, master);
@@ -193,6 +198,14 @@ public class CnlpRule extends Rule implements Cloneable, Serializable {
 		Boolean b = false;
 		cache.put(uid(), b);
 		return b;
+	}
+
+	@Override
+	public Rule reverse(String id) {
+		Label l = new Label(label().t, id);
+		CnlpRule r = new CnlpRule(l, test);
+		r.reversed = !reversed;
+		return r;
 	}
 
 }
