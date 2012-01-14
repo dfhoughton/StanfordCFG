@@ -51,7 +51,8 @@ public class ReversalTest {
 				//
 				"<ROOT> = <NP>",//
 				"<NP> = [<DP> <s>]? <NB> | <NP> <s> <PP>",//
-				"<DP> = <NP> <pos> | not after [ <P> <s> ] <D>",//
+				// arbitrary bit of tinkering to test reversibility
+				"<DP> = <NP> <pos> | not after [ <P> <s> ] <D>",// 
 				"<NB> = <AP> <s> <NB> | <NC>",//
 				"<NC> = [<N> <s>]* <N>",//
 				"<AP> = <Adv> <s> <AP> | <AP> <s> <PP> | <A>",//
