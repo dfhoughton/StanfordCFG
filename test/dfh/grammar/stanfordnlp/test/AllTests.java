@@ -16,6 +16,7 @@ import org.junit.runners.Suite;
 //
 		CnlpCharSequenceTest.class,//
 		GrammarTest.class,//
+		ReversalTest.class,//
 })
 public class AllTests {
 }

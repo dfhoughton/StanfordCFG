@@ -51,7 +51,7 @@ public class ReversalTest {
 				//
 				"<ROOT> = <NP>",//
 				"<NP> = [<DP> <s>]? <NB> | <NP> <s> <PP>",//
-				"<DP> = <NP> <pos> | not after <P> <D>",//
+				"<DP> = <NP> <pos> | not after [ <P> <s> ] <D>",//
 				"<NB> = <AP> <s> <NB> | <NC>",//
 				"<NC> = [<N> <s>]* <N>",//
 				"<AP> = <Adv> <s> <AP> | <AP> <s> <PP> | <A>",//
@@ -67,8 +67,7 @@ public class ReversalTest {
 		Matcher m = grammar.find(seq, opt);
 		Match n;
 		Set<String> correct = new HashSet<String>(), found = new HashSet<String>();
-		for (String s : new String[] { "The fat cat", "fat cat", "cat",
-				"the mat", "mat" })
+		for (String s : new String[] { "The fat cat", "mat" })
 			correct.add(s);
 		while ((n = m.match()) != null) {
 			found.add(seq.subSequence(n.start(), n.end()).toString());

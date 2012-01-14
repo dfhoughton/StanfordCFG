@@ -1,6 +1,7 @@
 package dfh.grammar.stanfordnlp.rules;
 
 import dfh.grammar.Label;
+import dfh.grammar.Reversible;
 import dfh.grammar.Label.Type;
 import dfh.grammar.stanfordnlp.CnlpRule;
 import dfh.grammar.stanfordnlp.LiteralTest;
@@ -13,6 +14,7 @@ import dfh.grammar.stanfordnlp.LiteralTest;
  * @author David Houghton
  * 
  */
+@Reversible
 public class Possessive extends CnlpRule {
 	private static final long serialVersionUID = 1L;
 
