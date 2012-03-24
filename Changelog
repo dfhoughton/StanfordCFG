@@ -1,5 +1,6 @@
 0.04
   * implemented rule reversal
+  * made adjustments for latest dfh.grammar API
 
 0.03, 14 Jan, 2012
   * fixed to work with API of Grammar 1.11
