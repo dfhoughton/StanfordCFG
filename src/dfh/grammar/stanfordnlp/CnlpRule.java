@@ -9,13 +9,12 @@ import dfh.grammar.CachedMatch;
 import dfh.grammar.Condition;
 import dfh.grammar.GlobalState;
 import dfh.grammar.Grammar;
-import dfh.grammar.GrammarException;
 import dfh.grammar.Label;
+import dfh.grammar.Label.Type;
 import dfh.grammar.Match;
 import dfh.grammar.Matcher;
 import dfh.grammar.Reversible;
 import dfh.grammar.Rule;
-import dfh.grammar.Label.Type;
 
 /**
  * Base class that makes Stanford CoreNLP tags available to a {@link Grammar}.
@@ -57,7 +56,8 @@ public class CnlpRule extends Rule implements Cloneable, Serializable {
 						CnlpRule.this.matchTrace(this, cm.m);
 					return cm.m;
 				}
-				CnlpCharSequence ccs = (CnlpCharSequence) (reversed ? options.rcs : options.cs);
+				CnlpCharSequence ccs = (CnlpCharSequence) (reversed ? options.rcs
+						: options.cs);
 				int off = reversed ? options.rcs.translate(offset - 1) : offset;
 				if (reversed ? ccs.endsToken(off) : ccs.beginsToken(offset)) {
 					String tag = ccs.tag(off);
@@ -169,13 +169,12 @@ public class CnlpRule extends Rule implements Cloneable, Serializable {
 	}
 
 	@Override
-	public Rule sClone() {
-		return new CnlpRule((Label) label.clone(), (POSTest) test.clone());
-	}
-
-	@Override
 	public Object clone() {
-		return shallowClone();
+		Label l = new Label(label.t, label.id);
+		Rule r = new CnlpRule(l, test);
+		if (c != null)
+			r = r.conditionalize(c, c.getName());
+		return r;
 	}
 
 	@Override
