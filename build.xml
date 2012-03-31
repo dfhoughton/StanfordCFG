@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="dfh.grammar.stanfordnlp" basedir="." default="jar">
+	<description>Rudiments of a context free grammar library using Stanford's CoreNLP pipeline.</description>
+	<property name="src.dir" value="${basedir}/src" />
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="test.dir" value="${basedir}/test" />
+	<property name="classes.dir" value="${build.dir}/classes" />
+	<property name="test.classes.dir" value="${build.dir}/test-classes" />
+	<property name="jar.dir" value="${build.dir}/jar" />
+	<property name="doc.dir" value="${basedir}/documentation/html/api" />
+	<loadfile property="version" srcFile="VERSION">
+		<filterchain>
+			<linecontainsregexp>
+				<regexp pattern="[0-9]" />
+			</linecontainsregexp>
+			<striplinecomments>
+				<comment value="#" />
+			</striplinecomments>
+			<striplinebreaks />
+		</filterchain>
+	</loadfile>
+	<path id="junit.path">
+		<pathelement location="/usr/share/java/junit4.jar" />
+	</path>
+	<path id="classpath.test">
+		<pathelement location="${classes.dir}" />
+		<pathelement location="${test.dir}" />
+		<pathelement location="${test.classes.dir}" />
+		<path refid="junit.path" />
+	</path>
+
+	<target name="clean" description="removes anything created by any other ant task">
+		<delete dir="${build.dir}" />
+		<delete dir="${doc.dir}" />
+	</target>
+
+	<target name="compile" description="compile source to bytecode">
+		<mkdir dir="${classes.dir}" />
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false">
+		</javac>
+	</target>
+
+	<target name="jar" depends="udv" description="packages code into jar">
+		<mkdir dir="${jar.dir}" />
+		<mkdir dir="${classes.dir}/META-INF" />
+		<copy file="lgpl.txt" tofile="${classes.dir}/META-INF/LICENSE" />
+		<copy file="NOTICE" tofile="${classes.dir}/META-INF/NOTICE" />
+		<jar destfile="${jar.dir}/${ant.project.name}-${version}.jar" basedir="${classes.dir}" />
+	</target>
+
+	<target name="javadoc" description="API for public and protected methods">
+		<mkdir dir="${doc.dir}" />
+		<javadoc access="protected" destdir="${doc.dir}" author="true" version="true" use="true" windowtitle="dfh.grammar.stanfordnlp">
+			<link href="http://download.oracle.com/javase/6/docs/api/" />
+			<fileset dir="${src.dir}" defaultexcludes="yes">
+				<include name="**/*.java" />
+			</fileset>
+		</javadoc>
+	</target>
+
+	<target name="tar" depends="udv" description="bundle up the source and documentation">
+		<tar destfile="${build.dir}/cli-${version}.tgz" compression="gzip">
+			<tarfileset dir="${basedir}">
+				<include name="README" />
+				<include name="VERSION" />
+				<include name="TODO" />
+				<include name="lgpl.txt" />
+				<include name="build.xml" />
+				<include name="test/**/*.java" />
+				<include name="src/**/*.java" />
+				<include name="documentation/**/*.txt" />
+				<include name="documentation/**/*.html" />
+				<include name="documentation/html/img/*" />
+				<include name="documentation/html/scripts/*.js" />
+			</tarfileset>
+		</tar>
+	</target>
+
+	<target name="udv" depends="compile" description="updates version number used in HTML documentation">
+		<replaceregexp match='version\s+=\s+".*"' replace='version = "${version}"' file="documentation/html/headers.json" />
+	</target>
+
+	<target name="test-compile" depends="compile" description="compiles junit tests">
+		<mkdir dir="${test.classes.dir}" />
+		<javac srcdir="${test.dir}" destdir="${test.classes.dir}" includeantruntime="false">
+			<classpath refid="classpath.test" />
+		</javac>
+	</target>
+
+	<target name="test" depends="test-compile" description="runs junit tests">
+		<junit>
+			<classpath refid="classpath.test" />
+			<formatter type="plain" usefile="false" />
+			<test name="dfh.grammar.stanfordnlp.test.AllTests" />
+		</junit>
+	</target>
+</project>
