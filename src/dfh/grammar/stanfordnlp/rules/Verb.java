@@ -1,10 +1,11 @@
 package dfh.grammar.stanfordnlp.rules;
 
 import dfh.grammar.Label;
-import dfh.grammar.Reversible;
 import dfh.grammar.Label.Type;
-import dfh.grammar.stanfordnlp.CnlpRule;
-import dfh.grammar.stanfordnlp.RegexTest;
+import dfh.grammar.Reversible;
+import dfh.grammar.stanfordnlp.CnlpRegexTest;
+import dfh.grammar.stanfordnlp.CnlpToken;
+import dfh.grammar.tokens.TokenRule;
 
 /**
  * Matches verbs; includes gerunds.
@@ -15,10 +16,10 @@ import dfh.grammar.stanfordnlp.RegexTest;
  * 
  */
 @Reversible
-public class Verb extends CnlpRule {
+public class Verb extends TokenRule<CnlpToken<?>> {
 	private static final long serialVersionUID = 1L;
 
 	public Verb() {
-		super(new Label(Type.terminal, "V"), new RegexTest("V.*"));
+		super(new Label(Type.terminal, "V"), new CnlpRegexTest("V.*"));
 	}
 }

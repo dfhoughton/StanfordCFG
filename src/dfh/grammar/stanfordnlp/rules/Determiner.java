@@ -1,10 +1,11 @@
 package dfh.grammar.stanfordnlp.rules;
 
 import dfh.grammar.Label;
-import dfh.grammar.Reversible;
 import dfh.grammar.Label.Type;
-import dfh.grammar.stanfordnlp.CnlpRule;
-import dfh.grammar.stanfordnlp.RegexTest;
+import dfh.grammar.Reversible;
+import dfh.grammar.stanfordnlp.CnlpRegexTest;
+import dfh.grammar.stanfordnlp.CnlpToken;
+import dfh.grammar.tokens.TokenRule;
 
 /**
  * Matches determiners broadly construed: 'a', 'the', 'that', 'his', 'whose',
@@ -17,10 +18,11 @@ import dfh.grammar.stanfordnlp.RegexTest;
  * 
  */
 @Reversible
-public class Determiner extends CnlpRule {
+public class Determiner extends TokenRule<CnlpToken<?>> {
 	private static final long serialVersionUID = 2L;
 
 	public Determiner() {
-		super(new Label(Type.terminal, "D"), new RegexTest("W?DT|(?:PR|W)P\\$"));
+		super(new Label(Type.terminal, "D"), new CnlpRegexTest(
+				"W?DT|(?:PR|W)P\\$"));
 	}
 }

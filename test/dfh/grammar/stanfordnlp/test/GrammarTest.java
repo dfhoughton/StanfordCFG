@@ -1,8 +1,11 @@
 package dfh.grammar.stanfordnlp.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.BeforeClass;
@@ -12,14 +15,16 @@ import dfh.grammar.Grammar;
 import dfh.grammar.Match;
 import dfh.grammar.Matcher;
 import dfh.grammar.Options;
-import dfh.grammar.stanfordnlp.CnlpCharSequence;
-import dfh.grammar.stanfordnlp.CnlpCharSequenceFactory;
+import dfh.grammar.Rule;
+import dfh.grammar.stanfordnlp.CnlpToken;
+import dfh.grammar.stanfordnlp.CnlpTokenSequenceFactory;
 import dfh.grammar.stanfordnlp.rules.Adjective;
 import dfh.grammar.stanfordnlp.rules.Adverb;
 import dfh.grammar.stanfordnlp.rules.Determiner;
 import dfh.grammar.stanfordnlp.rules.Noun;
 import dfh.grammar.stanfordnlp.rules.Possessive;
 import dfh.grammar.stanfordnlp.rules.Preposition;
+import dfh.grammar.tokens.TokenSequence;
 
 /**
  * Checks to see whether we can match against CoreNLP annotations.
@@ -32,11 +37,18 @@ import dfh.grammar.stanfordnlp.rules.Preposition;
 public class GrammarTest {
 
 	private static Grammar grammar;
-	private static CnlpCharSequenceFactory factory;
+	private static CnlpTokenSequenceFactory factory;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		factory = new CnlpCharSequenceFactory();
+		factory = new CnlpTokenSequenceFactory();
+		Map<String, Rule> rules = new HashMap<String, Rule>();
+		rules.put("N", new Noun());
+		rules.put("D", new Determiner());
+		rules.put("A", new Adjective());
+		rules.put("P", new Preposition());
+		rules.put("Adv", new Adverb());
+		rules.put("pos", new Possessive());
 		grammar = new Grammar(new String[] {
 				//
 				"<ROOT> = <NP>",//
@@ -46,18 +58,12 @@ public class GrammarTest {
 				"<NC> = [<N> <s>]* <N>",//
 				"<AP> = <Adv> <s> <AP> | <AP> <s> <PP> | <A>",//
 				"<PP> = <P> <s> <NP>",//
-				"<s> = /\\s++/r", });
-		grammar.defineRule("N", new Noun());
-		grammar.defineRule("D", new Determiner());
-		grammar.defineRule("A", new Adjective());
-		grammar.defineRule("P", new Preposition());
-		grammar.defineRule("Adv", new Adverb());
-		grammar.defineRule("pos", new Possessive());
+				"<s> = /\\s++/r", }, rules);
 	}
 
 	@Test
 	public void fatCatTest() {
-		CnlpCharSequence seq = factory.sequence("The fat cat sat on the mat.");
+		TokenSequence<CnlpToken<?>> seq = factory.sequence("The fat cat sat on the mat.");
 		Options opt = new Options();
 		opt.allowOverlap(true);
 		Matcher m = grammar.find(seq, opt);
@@ -76,7 +82,7 @@ public class GrammarTest {
 
 	@Test
 	public void veryFatTest() {
-		CnlpCharSequence seq = factory.sequence("The very fat cat.");
+		TokenSequence<CnlpToken<?>> seq = factory.sequence("The very fat cat.");
 		Options opt = new Options();
 		opt.allowOverlap(true);
 		Matcher m = grammar.find(seq, opt);
@@ -95,7 +101,7 @@ public class GrammarTest {
 
 	@Test
 	public void manMachineTest() {
-		CnlpCharSequence seq = factory.sequence("The man machine.");
+		TokenSequence<CnlpToken<?>> seq = factory.sequence("The man machine.");
 		Options opt = new Options();
 		opt.allowOverlap(true);
 		opt.longestMatch(false);
@@ -116,7 +122,7 @@ public class GrammarTest {
 
 	@Test
 	public void manInTheMoonTest() {
-		CnlpCharSequence seq = factory.sequence("The man in the moon.");
+		TokenSequence<CnlpToken<?>> seq = factory.sequence("The man in the moon.");
 		Options opt = new Options();
 		opt.allowOverlap(true);
 		opt.longestMatch(false);
@@ -137,7 +143,7 @@ public class GrammarTest {
 
 	@Test
 	public void bobsCarTest() {
-		CnlpCharSequence seq = factory.sequence("Bob's car");
+		TokenSequence<CnlpToken<?>> seq = factory.sequence("Bob's car");
 		Options opt = new Options();
 		opt.allowOverlap(true);
 		opt.longestMatch(false);

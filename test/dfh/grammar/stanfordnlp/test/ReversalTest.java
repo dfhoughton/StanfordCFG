@@ -1,6 +1,7 @@
 package dfh.grammar.stanfordnlp.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,14 +16,15 @@ import dfh.grammar.Match;
 import dfh.grammar.Matcher;
 import dfh.grammar.Options;
 import dfh.grammar.Rule;
-import dfh.grammar.stanfordnlp.CnlpCharSequence;
-import dfh.grammar.stanfordnlp.CnlpCharSequenceFactory;
+import dfh.grammar.stanfordnlp.CnlpToken;
+import dfh.grammar.stanfordnlp.CnlpTokenSequenceFactory;
 import dfh.grammar.stanfordnlp.rules.Adjective;
 import dfh.grammar.stanfordnlp.rules.Adverb;
 import dfh.grammar.stanfordnlp.rules.Determiner;
 import dfh.grammar.stanfordnlp.rules.Noun;
 import dfh.grammar.stanfordnlp.rules.Possessive;
 import dfh.grammar.stanfordnlp.rules.Preposition;
+import dfh.grammar.tokens.TokenSequence;
 
 /**
  * Checks to see whether we can match against CoreNLP annotations.
@@ -35,11 +37,11 @@ import dfh.grammar.stanfordnlp.rules.Preposition;
 public class ReversalTest {
 
 	private static Grammar grammar;
-	private static CnlpCharSequenceFactory factory;
+	private static CnlpTokenSequenceFactory factory;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		factory = new CnlpCharSequenceFactory();
+		factory = new CnlpTokenSequenceFactory();
 		Map<String, Rule> predefined = new HashMap<String, Rule>();
 		predefined.put("N", new Noun());
 		predefined.put("D", new Determiner());
@@ -52,7 +54,7 @@ public class ReversalTest {
 				"<ROOT> = <NP>",//
 				"<NP> = [<DP> <s>]? <NB> | <NP> <s> <PP>",//
 				// arbitrary bit of tinkering to test reversibility
-				"<DP> = <NP> <pos> | not after [ <P> <s> ] <D>",// 
+				"<DP> = <NP> <pos> | not after [ <P> <s> ] <D>",//
 				"<NB> = <AP> <s> <NB> | <NC>",//
 				"<NC> = [<N> <s>]* <N>",//
 				"<AP> = <Adv> <s> <AP> | <AP> <s> <PP> | <A>",//
@@ -62,7 +64,7 @@ public class ReversalTest {
 
 	@Test
 	public void fatCatTest() {
-		CnlpCharSequence seq = factory
+		TokenSequence<CnlpToken<?>> seq = factory
 				.sequence("The fat cat sat on the mat.");
 		Options opt = new Options().longestMatch(true);
 		Matcher m = grammar.find(seq, opt);
