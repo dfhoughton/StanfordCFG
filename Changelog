@@ -1,4 +1,5 @@
 1.05
+  * converted everything over to new token handling classes in dfh.grammar
 
 0.04, 24 March 2012
   * implemented rule reversal
