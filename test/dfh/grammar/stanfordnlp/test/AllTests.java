@@ -14,8 +14,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 //
-		GrammarTest.class,//
-		ReversalTest.class,//
+		GrammarTest.class, //
+		ReversalTest.class //
 })
 public class AllTests {
 }

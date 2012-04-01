@@ -23,6 +23,7 @@
 	<path id="corenlp.path">
 		<pathelement location="${corenlp.classes}" />
 		<pathelement location="${corenlp.models}" />
+		<pathelement location="${corenlp.nu.xom}" />
 	</path>
 	<path id="grammar.path">
 		<pathelement location="${grammar.jar}" />
