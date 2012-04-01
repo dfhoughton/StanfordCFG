@@ -8,6 +8,7 @@
 	<property name="test.classes.dir" value="${build.dir}/test-classes" />
 	<property name="jar.dir" value="${build.dir}/jar" />
 	<property name="doc.dir" value="${basedir}/documentation/html/api" />
+	<property file="build.properties" />
 	<loadfile property="version" srcFile="VERSION">
 		<filterchain>
 			<linecontainsregexp>
@@ -19,14 +20,20 @@
 			<striplinebreaks />
 		</filterchain>
 	</loadfile>
-	<path id="junit.path">
-		<pathelement location="/usr/share/java/junit4.jar" />
+	<path id="corenlp.path">
+		<pathelement location="${corenlp.classes}" />
+		<pathelement location="${corenlp.models}" />
+	</path>
+	<path id="grammar.path">
+		<pathelement location="${grammar.jar}" />
 	</path>
 	<path id="classpath.test">
 		<pathelement location="${classes.dir}" />
 		<pathelement location="${test.dir}" />
 		<pathelement location="${test.classes.dir}" />
-		<path refid="junit.path" />
+		<pathelement location="${junit}" />
+		<path refid="corenlp.path" />
+		<path refid="grammar.path" />
 	</path>
 
 	<target name="clean" description="removes anything created by any other ant task">
@@ -37,6 +44,8 @@
 	<target name="compile" description="compile source to bytecode">
 		<mkdir dir="${classes.dir}" />
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false">
+			<classpath refid="grammar.path" />
+			<classpath refid="corenlp.path" />
 		</javac>
 	</target>
 
