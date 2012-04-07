@@ -15,7 +15,8 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
 //
 		GrammarTest.class, //
-		ReversalTest.class //
+		ReversalTest.class, //
+		SentenceBoundaryTest.class //
 })
 public class AllTests {
 }

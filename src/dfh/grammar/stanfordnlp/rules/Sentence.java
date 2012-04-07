@@ -11,25 +11,47 @@
  */
 package dfh.grammar.stanfordnlp.rules;
 
+import java.util.List;
+
 import dfh.grammar.Label;
 import dfh.grammar.Label.Type;
 import dfh.grammar.Reversible;
-import dfh.grammar.stanfordnlp.CnlpRegexTest;
 import dfh.grammar.stanfordnlp.CnlpToken;
+import dfh.grammar.stanfordnlp.SentenceToken;
 import dfh.grammar.tokens.TokenRule;
+import dfh.grammar.tokens.TokenTest;
 
 /**
- * Matches adjectives.
+ * Matches whole sentences.
  * <p>
- * <b>Creation date:</b> May 12, 2011
+ * <b>Creation date:</b> April 1, 2011
  * 
  * @author David Houghton
  * 
  */
 @Reversible
-public class Adjective extends TokenRule<CnlpToken<?>> {
-	public Adjective() {
-		super(new Label(Type.terminal, "A"), new CnlpRegexTest("J.*"));
+public class Sentence extends TokenRule<CnlpToken<?>> {
+	public Sentence() {
+		super(new Label(Type.terminal, "sentence"),
+				new TokenTest<CnlpToken<?>>() {
+
+					@Override
+					public String id() {
+						return "sentence";
+					}
+
+					@Override
+					public int test(List<CnlpToken<?>> starting,
+							List<CnlpToken<?>> ending, boolean reversed) {
+						if (starting != null) {
+							for (CnlpToken<?> t : starting) {
+								if (t instanceof SentenceToken)
+									return reversed ? t.start() : t.end();
+							}
+						}
+						return -1;
+					}
+				});
 	}
 
 	private static final long serialVersionUID = 1L;
