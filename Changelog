@@ -1,5 +1,3 @@
-1.06
-
 1.05, 7 April 2012
   * converted everything over to new token handling classes in dfh.grammar
   * added sentence boundary rule
