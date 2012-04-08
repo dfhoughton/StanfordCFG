@@ -1,0 +1,94 @@
+@CHARSET "UTF-8";
+
+body {
+	margin: 3em;
+	margin-left: 10%;
+	margin-right: 10%;
+	background-color: #f8eb8f;
+}
+
+h1 {
+	text-align: center;
+}
+
+h1,h2,h3 {
+	color: red;
+}
+
+pre {
+	margin: 1em;
+	padding: 1em;
+	border: thin dashed red;
+	background-color: white;
+}
+
+pre.results {
+	margin: 2em;
+	border: thin solid red;
+}
+
+pre>b {
+	color: red;
+}
+
+a:link {
+	color: red;
+}
+
+a:visited {
+	color: red;
+	text-decoration: none;
+}
+
+div {
+	margin-bottom: 1em;
+}
+
+div#toc {
+	margin: 1em auto;
+	display: table;
+}
+
+/* footnote styles */
+span.fn {
+	display: none;
+}
+
+a.footnote {
+	vertical-align: baseline;
+	font-size: 0.8em;
+	position: relative;
+	top: -0.4em;
+	color: red;
+}
+
+a.toc_top {
+	vertical-align: baseline;
+	font-size: .6em;
+	position: relative;
+	top: -0.6em;
+	color: red;
+	margin-left: 1em;
+}
+
+div#footnotes {
+	margin-top: 1em;
+	padding-top: 1em;
+	border-top: thin solid black;
+}
+
+.dictionary_table {
+	margin: 1em;
+}
+
+.dictionary_table td {
+	vertical-align: top;
+}
+
+.dictionary_table  td:first-child {
+	padding-right: 1em;
+	font-weight: bold;
+	text-align: right;
+	position: relative;
+	top: -0.2em;
+}

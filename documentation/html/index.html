@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>dfh.cli.Cli</title>
+<link rel="icon" type="image/png" href="/dfh.png" />
+<link href="../css/dfh.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="../scripts/pageutils.js"></script>
+<script type="text/javascript" src="headers.json"></script>
+<style type="text/css">
+.sm {
+	font-size: small;
+}
+</style>
+</head>
+<body onLoad="dfh.prepare('Stanford CFG', 'dfh.trie')">
+	<h1>Stanford CoreNLP Context Free Grammars</h1>
+	<p>
+		This library provides some rules adapting Stanford's handy <a
+			href="http://nlp.stanford.edu/software/corenlp.shtml">CoreNLP</a>
+		output to be usable with
+		<code>dfh.grammar</code>
+		. This allows you to do things like play with <a
+			href="http://en.wikipedia.org/wiki/X-bar_theory">X-bar syntax</a>,
+		say, using CoreNLP tokenization, or perhaps some unification based
+		theory like <a href="http://hpsg.stanford.edu/">HPSG</a><span
+			class="fn">You will have to use conditions to implement the
+			unification.</span>, or really any syntactic theory expressible at least in
+		part in <a href="http://en.wikipedia.org/wiki/Context-free_grammar">context-free
+			grammar</a> rules. Here's a sample:
+	</p>
+	<pre>import java.util.HashMap;
+import java.util.Map;
+
+import dfh.grammar.Grammar;
+import dfh.grammar.Match;
+import dfh.grammar.Matcher;
+import dfh.grammar.Rule;
+import dfh.grammar.stanfordnlp.CnlpToken;
+import dfh.grammar.stanfordnlp.CnlpTokenSequenceFactory;
+import dfh.grammar.stanfordnlp.rules.Adjective;
+import dfh.grammar.stanfordnlp.rules.Determiner;
+import dfh.grammar.stanfordnlp.rules.Noun;
+import dfh.grammar.tokens.TokenSequence;
+
+public class NPChunker {
+
+	public static void main(String[] args) {
+		Map&lt;String, Rule&gt; map = new HashMap&lt;String, Rule&gt;();
+		map.put("A", new Adjective());
+		map.put("N", new Noun());
+		map.put("D", new Determiner());
+		String[] rules = { 
+				"NP = [ &lt;D&gt; &lt;s&gt; ]? [ &lt;A&gt; &lt;s&gt; ]* &lt;N&gt;",
+				" s = /\\s++/", 
+		};
+		Grammar g = new Grammar(rules, map);
+		String sentence = "The fat cat sat on the mat.";
+		TokenSequence&lt;CnlpToken&lt;?&gt;&gt; seq = new CnlpTokenSequenceFactory()
+				.sequence(sentence);
+		Matcher m = g.find(seq);
+		Match n;
+		while ((n = m.match()) != null)
+			System.out.println(n.group());
+	}
+}</pre>
+	<p>This produces, ignoring CoreNLP's output to STDERR,</p>
+	<pre>The fat cat
+the mat</pre>
+	<p>
+		For now, this is all the documentation of the project: this page, the
+		downloadable tarball including source, unit tests, and example code,
+		and the javadocs. The Stanford CoreNLP library must be downloaded
+		separately and is under a separate license (free for research). These
+		classes serve as much as anything as an example of how one might adapt
+		an NLP library to be used with
+		<code>dfh.grammar</code>
+		.
+	</p>
+	<!--  <span id="toc"></span> -->
+</body>
+</html>

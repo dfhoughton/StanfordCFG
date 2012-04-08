@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>dfh.cli.Cli</title>
+<link rel="icon" type="image/png" href="/dfh.png" />
+<link href="../css/dfh.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="headers.json"></script>
+<script type="text/javascript" src="../scripts/pageutils.js"></script>
+</head>
+<body onLoad="dfh.prepare('download', 'dfh.trie')">
+	<h1>Download</h1>
+	<p>
+		A source tarball with documentation, ant build script, etc: <a
+			href="StanfordCFG-__VERSION__.tgz">StanfordCFG-__VERSION__.tgz</a>
+	</p>
+	<p>For the most up-to-date code, clone the github repository:
+	<pre>
+	git clone https://github.com/dfhoughton/StanfordCFG.git</pre>
+	</p>
+	<p>Once you have the code, most things you may want to do can be
+		accomplished with the build file.If you wish to run the unit tests,
+		you will need JUnit 4 on your classpath.</p>
+	<p>
+		Note the
+		<code>build.properties</code>
+		file. You will have to modify some file paths in this for the ant
+		build file to work.
+	</p>
+</body>
+</html>

@@ -1,0 +1,12 @@
+/**
+ * Headers for CLI pages.
+ */
+
+var hdrs = {
+	"home" : "/",
+	"Stanford CFG" : "index.html",
+	"API" : "api/index.html",
+	"download" : "download.html",
+};
+
+var version = "1.06";

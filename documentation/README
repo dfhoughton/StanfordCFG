@@ -1,0 +1,4 @@
+The peculiar structure of this documentation directory tree --
+parallel directories for HTML, scripts (javascript), and css --
+facilitates writing this documentation such that it can simply
+be dropped into my web site -- dfhoughton.com
