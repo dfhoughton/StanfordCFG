@@ -78,10 +78,8 @@
 				<include name="build.xml" />
 				<include name="test/**/*.java" />
 				<include name="src/**/*.java" />
-				<include name="documentation/**/*.txt" />
-				<include name="documentation/**/*.html" />
-				<include name="documentation/html/img/*" />
-				<include name="documentation/html/scripts/*.js" />
+				<include name="examples/**/*.java" />
+				<include name="documentation/**/*" />
 			</tarfileset>
 		</tar>
 	</target>
