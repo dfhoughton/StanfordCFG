@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project name="dfh.grammar.stanfordnlp" basedir="." default="jar">
+<project name="dfh.grammar.stanfordcfg" basedir="." default="jar">
 	<description>Rudiments of a context free grammar library using Stanford's CoreNLP pipeline.</description>
 	<property name="src.dir" value="${basedir}/src" />
 	<property name="build.dir" value="${basedir}/build" />
@@ -69,7 +69,7 @@
 	</target>
 
 	<target name="tar" depends="udv" description="bundle up the source and documentation">
-		<tar destfile="${build.dir}/cli-${version}.tgz" compression="gzip">
+		<tar destfile="${build.dir}/StanfordCFG-${version}.tgz" compression="gzip">
 			<tarfileset dir="${basedir}">
 				<include name="README" />
 				<include name="VERSION" />
