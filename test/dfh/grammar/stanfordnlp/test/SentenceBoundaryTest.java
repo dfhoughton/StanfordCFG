@@ -41,7 +41,7 @@ public class SentenceBoundaryTest {
 	@Test
 	public void forwardBoundaryTest1() {
 		TokenSequence<CnlpToken<?>> seq = factory.sequence("I see Bob.");
-		Grammar g = new Grammar("rule = /./{1,5}? <sb>", predefined);
+		Grammar g = new Grammar("rule = /./ <sb>", predefined);
 		Matcher m = g.find(seq, new Options().study(false));
 		Match n = m.match();
 		assertNotNull(n);
@@ -51,7 +51,7 @@ public class SentenceBoundaryTest {
 	@Test
 	public void forwardBoundaryTest2() {
 		TokenSequence<CnlpToken<?>> seq = factory.sequence("I see Bob.");
-		Grammar g = new Grammar("rule = /./{1,5}? <sb>", predefined);
+		Grammar g = new Grammar("rule = /./ <sb>", predefined);
 		Matcher m = g.find(seq, new Options().study(true));
 		Match n = m.match();
 		assertNotNull(n);
@@ -62,10 +62,12 @@ public class SentenceBoundaryTest {
 	public void backwardsBoundaryTest1() {
 		TokenSequence<CnlpToken<?>> seq = factory
 				.sequence("I see Bob. Bob sees me.");
-		Grammar g = new Grammar("rule = after [ <sb> /\\s++/r? ] /\\w/",
-				predefined);
+		Grammar g = new Grammar("rule .= after <sb> /\\w/", predefined);
 		Matcher m = g.find(seq, new Options().study(false));
 		Match n = m.match();
+		assertNotNull(n);
+		assertEquals("I", n.group());
+		n = m.match();
 		assertNotNull(n);
 		assertEquals("B", n.group());
 	}
@@ -74,10 +76,12 @@ public class SentenceBoundaryTest {
 	public void backwardsBoundaryTest2() {
 		TokenSequence<CnlpToken<?>> seq = factory
 				.sequence("I see Bob. Bob sees me.");
-		Grammar g = new Grammar("rule = after [ <sb> /\\s++/r? ] /\\w/",
-				predefined);
+		Grammar g = new Grammar("rule .= after <sb> /\\w/", predefined);
 		Matcher m = g.find(seq, new Options().study(true));
 		Match n = m.match();
+		assertNotNull(n);
+		assertEquals("I", n.group());
+		n = m.match();
 		assertNotNull(n);
 		assertEquals("B", n.group());
 	}

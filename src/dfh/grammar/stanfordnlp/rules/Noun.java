@@ -31,6 +31,6 @@ public class Noun extends TokenRule<CnlpToken<?>> {
 	private static final long serialVersionUID = 1L;
 
 	public Noun() {
-		super(new Label(Type.terminal, "N"), new CnlpRegexTest("VBG|N.*"));
+		super(new Label(Type.implicit, "N"), new CnlpRegexTest("VBG|N.*"));
 	}
 }

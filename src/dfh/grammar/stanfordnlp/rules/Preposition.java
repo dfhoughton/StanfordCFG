@@ -31,6 +31,6 @@ public class Preposition extends TokenRule<CnlpToken<?>> {
 	private static final long serialVersionUID = 1L;
 
 	public Preposition() {
-		super(new Label(Type.terminal, "P"), new CnlpRegexTest("IN|TO"));
+		super(new Label(Type.implicit, "P"), new CnlpRegexTest("IN|TO"));
 	}
 }

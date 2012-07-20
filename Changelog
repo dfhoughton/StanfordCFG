@@ -1,4 +1,5 @@
 1.06
+  * adapted rules to refactoring of dfh.grammar
 
 1.05, 7 April 2012
   * converted everything over to new token handling classes in dfh.grammar

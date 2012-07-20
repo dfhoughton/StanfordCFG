@@ -33,7 +33,7 @@ public class Determiner extends TokenRule<CnlpToken<?>> {
 	private static final long serialVersionUID = 2L;
 
 	public Determiner() {
-		super(new Label(Type.terminal, "D"), new CnlpRegexTest(
+		super(new Label(Type.implicit, "D"), new CnlpRegexTest(
 				"W?DT|(?:PR|W)P\\$"));
 	}
 }

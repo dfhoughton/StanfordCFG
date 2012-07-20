@@ -31,6 +31,6 @@ public class Verb extends TokenRule<CnlpToken<?>> {
 	private static final long serialVersionUID = 1L;
 
 	public Verb() {
-		super(new Label(Type.terminal, "V"), new CnlpRegexTest("V.*"));
+		super(new Label(Type.implicit, "V"), new CnlpRegexTest("V.*"));
 	}
 }

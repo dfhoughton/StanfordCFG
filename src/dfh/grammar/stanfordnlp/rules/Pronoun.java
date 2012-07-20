@@ -31,7 +31,7 @@ public class Pronoun extends TokenRule<CnlpToken<?>> {
 	private static final long serialVersionUID = 1L;
 
 	public Pronoun() {
-		super(new Label(Type.terminal, "PRO"), new CnlpRegexTest("(?:PR|W)P"));
+		super(new Label(Type.implicit, "PRO"), new CnlpRegexTest("(?:PR|W)P"));
 	}
 
 }

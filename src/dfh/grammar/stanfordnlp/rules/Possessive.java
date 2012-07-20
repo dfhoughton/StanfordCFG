@@ -31,6 +31,6 @@ public class Possessive extends TokenRule<CnlpToken<?>> {
 	private static final long serialVersionUID = 1L;
 
 	public Possessive() {
-		super(new Label(Type.terminal, "pos"), new CnlpTagTest("POS"));
+		super(new Label(Type.implicit, "pos"), new CnlpTagTest("POS"));
 	}
 }

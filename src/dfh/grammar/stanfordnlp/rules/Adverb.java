@@ -31,6 +31,6 @@ public class Adverb extends TokenRule<CnlpToken<?>> {
 	private static final long serialVersionUID = 1L;
 
 	public Adverb() {
-		super(new Label(Type.terminal, "Adv"), new CnlpRegexTest("R.*"));
+		super(new Label(Type.implicit, "Adv"), new CnlpRegexTest("R.*"));
 	}
 }

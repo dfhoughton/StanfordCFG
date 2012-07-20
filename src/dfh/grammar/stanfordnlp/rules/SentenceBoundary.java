@@ -32,7 +32,7 @@ import dfh.grammar.tokens.TokenTest;
 @Reversible
 public class SentenceBoundary extends TokenRule<CnlpToken<?>> {
 	public SentenceBoundary() {
-		super(new Label(Type.terminal, "sentence"),
+		super(new Label(Type.implicit, "sentence"),
 				new TokenTest<CnlpToken<?>>() {
 
 					@Override

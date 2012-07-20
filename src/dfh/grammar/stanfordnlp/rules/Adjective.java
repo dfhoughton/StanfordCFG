@@ -29,7 +29,7 @@ import dfh.grammar.tokens.TokenRule;
 @Reversible
 public class Adjective extends TokenRule<CnlpToken<?>> {
 	public Adjective() {
-		super(new Label(Type.terminal, "A"), new CnlpRegexTest("J.*"));
+		super(new Label(Type.implicit, "A"), new CnlpRegexTest("J.*"));
 	}
 
 	private static final long serialVersionUID = 1L;

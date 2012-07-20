@@ -32,7 +32,7 @@ import dfh.grammar.tokens.TokenTest;
 @Reversible
 public class Sentence extends TokenRule<CnlpToken<?>> {
 	public Sentence() {
-		super(new Label(Type.terminal, "sentence"),
+		super(new Label(Type.implicit, "sentence"),
 				new TokenTest<CnlpToken<?>>() {
 
 					@Override

@@ -51,19 +51,19 @@ public class GrammarTest {
 		rules.put("pos", new Possessive());
 		grammar = new Grammar(new String[] {
 				//
-				"<ROOT> = <NP>",//
-				"<NP> = [<DP> <s>]? <NB> | <NP> <s> <PP>",//
-				"<DP> = <NP> <pos> | <D>",//
-				"<NB> = <AP> <s> <NB> | <NC>",//
-				"<NC> = [<N> <s>]* <N>",//
-				"<AP> = <Adv> <s> <AP> | <AP> <s> <PP> | <A>",//
-				"<PP> = <P> <s> <NP>",//
-				"<s> = /\\s++/r", }, rules);
+				"  <NP> := [<DP> .]? <NB> | <NP> <PP>",//
+				"  <DP>  = <NP> <pos> | <D>",//
+				"  <NB> := <AP> <NB> | <NC>",//
+				"  <NC> := [<N> .]* <N>",//
+				"  <AP> := <Adv> <AP> | <AP> <PP> | <A>",//
+				"  <PP> := <P> <NP>",//
+		}, rules);
 	}
 
 	@Test
 	public void fatCatTest() {
-		TokenSequence<CnlpToken<?>> seq = factory.sequence("The fat cat sat on the mat.");
+		TokenSequence<CnlpToken<?>> seq = factory
+				.sequence("The fat cat sat on the mat.");
 		Options opt = new Options();
 		opt.allowOverlap(true);
 		Matcher m = grammar.find(seq, opt);
@@ -73,7 +73,7 @@ public class GrammarTest {
 				"the mat", "mat" })
 			correct.add(s);
 		while ((n = m.match()) != null) {
-			found.add(seq.subSequence(n.start(), n.end()).toString());
+			found.add(n.group());
 		}
 		assertEquals(correct.size(), found.size());
 		correct.removeAll(found);
@@ -122,7 +122,8 @@ public class GrammarTest {
 
 	@Test
 	public void manInTheMoonTest() {
-		TokenSequence<CnlpToken<?>> seq = factory.sequence("The man in the moon.");
+		TokenSequence<CnlpToken<?>> seq = factory
+				.sequence("The man in the moon.");
 		Options opt = new Options();
 		opt.allowOverlap(true);
 		opt.longestMatch(false);
