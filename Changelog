@@ -1,4 +1,6 @@
-1.07
+1.07, 9 October 2012
+  * mostly minor changes to documentation reflecting new whitespace handing
+    features of dfh.grammar
 
 1.06, 20 July 2012
   * adapted rules to refactoring of dfh.grammar

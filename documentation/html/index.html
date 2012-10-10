@@ -24,7 +24,7 @@
 			href="http://en.wikipedia.org/wiki/X-bar_theory">X-bar syntax</a>,
 		say, using CoreNLP tokenization, or perhaps some unification based
 		theory like <a href="http://hpsg.stanford.edu/">HPSG</a><span
-			class="fn">You will have to use conditions to implement the
+			class="fn">You will have to use conditions to implement
 			unification.</span>, or really any syntactic theory expressible at least in
 		part in <a href="http://en.wikipedia.org/wiki/Context-free_grammar">context-free
 			grammar</a> rules. Here's a sample:
@@ -46,18 +46,14 @@ import dfh.grammar.tokens.TokenSequence;
 public class NPChunker {
 
 	public static void main(String[] args) {
+	    CnlpTokenSequenceFactory sequencer = new CnlpTokenSequenceFactory();
 		Map&lt;String, Rule&gt; map = new HashMap&lt;String, Rule&gt;();
 		map.put("A", new Adjective());
 		map.put("N", new Noun());
 		map.put("D", new Determiner());
-		String[] rules = { 
-				"NP = [ &lt;D&gt; &lt;s&gt; ]? [ &lt;A&gt; &lt;s&gt; ]* &lt;N&gt;",
-				" s = /\\s++/", 
-		};
-		Grammar g = new Grammar(rules, map);
+		Grammar g = new Grammar("NP := &lt;D&gt;? [ &lt;A&gt; . ]* &lt;N&gt;", map);
 		String sentence = "The fat cat sat on the mat.";
-		TokenSequence&lt;CnlpToken&lt;?&gt;&gt; seq = new CnlpTokenSequenceFactory()
-				.sequence(sentence);
+		TokenSequence&lt;CnlpToken&lt;?&gt;&gt; seq = sequencer.sequence(sentence);
 		Matcher m = g.find(seq);
 		Match n;
 		while ((n = m.match()) != null)

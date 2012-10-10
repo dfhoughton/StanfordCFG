@@ -22,18 +22,14 @@ import dfh.grammar.tokens.TokenSequence;
 public class NPChunker {
 
 	public static void main(String[] args) {
+		CnlpTokenSequenceFactory sequencer = new CnlpTokenSequenceFactory();
 		Map<String, Rule> map = new HashMap<String, Rule>();
 		map.put("A", new Adjective());
 		map.put("N", new Noun());
 		map.put("D", new Determiner());
-		String[] rules = { 
-				"NP = [ <D> <s> ]? [ <A> <s> ]* <N>",
-				" s = /\\s++/", 
-		};
-		Grammar g = new Grammar(rules, map);
+		Grammar g = new Grammar("NP := <D>? [ <A> . ]* <N>", map);
 		String sentence = "The fat cat sat on the mat.";
-		TokenSequence<CnlpToken<?>> seq = new CnlpTokenSequenceFactory()
-				.sequence(sentence);
+		TokenSequence<CnlpToken<?>> seq = sequencer.sequence(sentence);
 		Matcher m = g.find(seq);
 		Match n;
 		while ((n = m.match()) != null)
