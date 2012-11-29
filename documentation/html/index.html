@@ -34,7 +34,6 @@ import java.util.Map;
 
 import dfh.grammar.Grammar;
 import dfh.grammar.Match;
-import dfh.grammar.Matcher;
 import dfh.grammar.Rule;
 import dfh.grammar.stanfordnlp.CnlpToken;
 import dfh.grammar.stanfordnlp.CnlpTokenSequenceFactory;
@@ -43,25 +42,37 @@ import dfh.grammar.stanfordnlp.rules.Determiner;
 import dfh.grammar.stanfordnlp.rules.Noun;
 import dfh.grammar.tokens.TokenSequence;
 
+/**
+ * A silly NP chunker that only knows about nouns, adjectives, and determiners.
+ */
 public class NPChunker {
 
-	public static void main(String[] args) {
-	    CnlpTokenSequenceFactory sequencer = new CnlpTokenSequenceFactory();
-		Map&lt;String, Rule&gt; map = new HashMap&lt;String, Rule&gt;();
-		map.put("A", new Adjective());
-		map.put("N", new Noun());
-		map.put("D", new Determiner());
-		Grammar g = new Grammar("NP := &lt;D&gt;? [ &lt;A&gt; . ]* &lt;N&gt;", map);
-		String sentence = "The fat cat sat on the mat.";
-		TokenSequence&lt;CnlpToken&lt;?&gt;&gt; seq = sequencer.sequence(sentence);
-		Matcher m = g.find(seq);
-		Match n;
-		while ((n = m.match()) != null)
-			System.out.println(n.group());
-	}
+    public static void main(String[] args) {
+
+        // <b>a simple NP grammar</b>
+        Map&lt;String, Rule&gt; map = new HashMap&lt;String, Rule&gt;();
+        map.put("A", new Adjective());
+        map.put("N", new Noun());
+        map.put("D", new Determiner());
+        Grammar g = new Grammar("NP := &lt;D&gt;? [ &lt;A&gt; . ]* &lt;N&gt;", map);
+
+        // <b>make a tokenizer</b>
+        CnlpTokenSequenceFactory sequencer = new CnlpTokenSequenceFactory();
+
+        // <b>some text</b>
+        String sentence = "The fat cat sat on the mat.";
+
+        // <b>tokenize and tag it</b>
+        TokenSequence&lt;CnlpToken&lt;?&gt;&gt; seq = sequencer.sequence(sentence);
+
+        // <b>find some NPs</b>
+        for (Match m : g.find(seq).all())
+            System.out.println(m.group());
+    }
+
 }</pre>
 	<p>This produces, ignoring CoreNLP's output to STDERR,</p>
-	<pre>The fat cat
+	<pre class="results">The fat cat
 the mat</pre>
 	<p>
 		For now, this is all the documentation of the project: this page, the
