@@ -7,7 +7,7 @@ May 12, 2011
 This is a project to wed the [Stanford NLP Group's][stanford] sentencing, lemmatization, and POS tagging tools with my Grammar project to facilitate constructing rule-based grammars for natural languages. The idea is that you can write a grammar like so
 
     NP := <D>? <Nb> | <NP> <PP>
-    Nb := <AP>* <N>
+    Nb := [ <AP> . ]* <N>
     AP := 'very'? <A>
     PP := <P> <NP>
 
